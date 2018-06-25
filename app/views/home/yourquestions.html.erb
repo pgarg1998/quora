@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+ <!--   <script>
+   	$(document).ready(function(){
+
+       var butt = document.getElementById("hy");
+       butt.onclick =  function(){
+
+	     var $toastContent = $('<span>Message Deleted</span>').add($('<button class="btn-flat toast-action">Undo</button>'));
+         Materialize.toast($toastContent, 30000);
+}
+
+  });
+
+   	
+   </script> -->
+
+
+	<div style="background-color:brown;margin-top: 100px;padding-left: 5px;padding-top: 20px;margin-left: 10px; font-size: 29px; width: 1270px; height: 60px;padding-left: 550px;">
+		My Questions
+    </div>
+    <% @message.each do|m| %>
+        <% if m.user.id == current_user.id %>
+          <div class="yourquestions_div" data-id=<%=m.id%>>
+           <div>
+                <div>
+                	<b style="font-size: 25px;"><%= m.content %></b>
+                </div>
+                <div style="display: flex; margin-right: 30px;margin-left: 1150px;margin-top: -30px;"> 
+                        
+                  <%= link_to image_tag("/delete.png", class: "delete_message"),url_for(controller: :messages, action: :destro, id: m.id), :id => 'hy', :onclick => "myfunction(#{m.id}!)" ,data: { confirm: 'Are you sure?' } %>
+
+                      <a class=" modal-trigger" href="#modal9<%=m.id%>" id="edit-modal" >   Edit
+                      </a>         
+                      <!-- Modal Structure -->
+                      <div id="modal9<%=m.id%>" class="modal" style="width: 605px; border-radius: 8px;">
+                      	<div class="modal-content" >
+                           <div style="background-color: whitesmoke;height: 60px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                             <div>
+                                <% if current_user.profile_picture %>
+                                  <img src="/uploads/<%=current_user.profile_picture %>" id="image">
+                                <% else %>
+                                  <img src="/uploads/checkmark.png" id="image">
+                                <% end %>
+                             </div>
+                             <div style="margin-top:-30px;margin-left: 35px;font-size: 13px;color: black;">
+                                <%if current_user.name%>
+                                  <b><%= current_user.name %></b> added<br>
+                                <%else%>
+                                  <b><%= current_user.firstname %> <%= current_user.lastname %></b><br>
+                                <%end%>
+                             </div>
+                           </div>
+                           <div style="margin-left: -25px;width: 606px;color: grey; margin-bottom: 40px;"><hr></div>
+                           <%= form_tag({:controller => "answers", :action => "create"}, method: :post) do %>
+                             <%= hidden_field_tag "id", m.id %>
+                             <div class="input-field col s6">
+                                <input id="first_name" type="text" class="validate" value="<%= m.content %>" name="Question">
+                                <label for="first_name">Your Question</label>
+                             </div>
+                             <%= submit_tag "update" , :id=>"update_message" %>
+                             <br>
+                           <% end %>
+                        </div>
+                      </div> 
+                </div>
+           </div>    
+                <% answer = Answer.where(message_id: m.id) %>
+            <% if answer.count > 0 %>
+                   <% ans = 0%>
+                   <% @answer.each do |a| %>
+                      <% if a.message_id == m.id %>
+                        <% ans = ans+1 %>
+                      <% end %>
+                   <% end %>
+                   <div>
+  
+                      <h6 style="color: grey; font-size: 13px; display: block;cursor: pointer;">
+                         <%= ans %> Answers . Asked
+                         <% t = m.created_at %>
+                         <%= t.strftime("%b %d, %Y") %>
+                      </h6> 
+                     <span style="display: none;"> 
+                       <% @answer.each do|a| %>
+                              <% if a.message_id == m.id %>
+                                <div style="display: flex;margin-top: 0px;">
+                                 <div class="answers_profile_pic"> 
+                                  <% if m.user.profile_picture %>
+                                     <img src="/uploads/<%=m.user.profile_picture %>">
+                                  <% else %>
+                                     <img src="/uploads/checkmark.png">
+                                  <% end %>
+                                 </div>                  
+                                 <div style="margin-left: 5px;margin-top: 5px;">
+                                   <span style="font-size: 16px;color: black;">
+                                    <%= a.user.firstname %> <%= a.user.lastname %>  
+                                   </span><br>
+                                   <span style="font-size: 10px;color: grey;">
+                                    Answered 
+                                   <% t = a.created_at %>
+                                   <%= t.strftime("%b %d, %Y") %>
+                                   </span>  
+                                 </div>               
+                                </div>
+                                <br>  
+                                <div style="font-size: 20px;">
+                                  <%= a.content %>   
+                                </div> 
+                                <br>
+                                <div class="answer_upvote_button" data-id=<%=a.id%> >
+                                  <%= link_to a.upvote_string(current_user.id), url_for(controller: :upvotes , action: :toggle_answer_upvote, answer_id: a.id), :id => "answer_upvote_button",remote: true %>
+                                </div>
+                                <br><br>
+                              <% end %>
+                       <% end %>
+                     </span>                         
+                   </div>    
+            <% else %>  
+                   <b style="color: red;margin-left: 2px;"> No answers yet </b>. Asked
+                   <% t = m.created_at %>
+                   <%= t.strftime("%b %d, %Y") %> 
+                   <br><br> 
+            <% end %>   
+            <a class=" modal-trigger" href="#modal4<%=m.id%>" id="answer1">
+              <i class="material-icons">mode_edit</i>Answer
+            </a>
+            <div id="modal4<%=m.id%>" class="modal" style="width: 606px;height: 280px; border-radius: 10px;">
+              <div class="modal-content">
+                <div style="background-color: whitesmoke;height: 60px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                   <div>
+                      <% if current_user.profile_picture %>
+                        <img src="/uploads/<%=current_user.profile_picture %>" id="image">
+                      <% else %>
+                        <img src="/uploads/checkmark.png" id="image">
+                      <% end %>
+                   </div>
+                   <div style="margin-top:-30px;margin-left: 35px;font-size: 13px;color: black;">
+                      <%if current_user.name%>
+                        <b><%= current_user.name %></b> added<br>
+                      <%else%>
+                        <b><%= current_user.firstname %> <%= current_user.lastname %></b> added<br>
+                      <%end%>
+                   </div>
+                </div>
+                 <div style="margin-left: -25px;width: 606px;color: grey;"><hr></div>
+                 <%= form_tag({:controller => "answers", :action => "create"}, method: :post) do %>
+                   <%= hidden_field_tag "message_id", m.id %>
+                   <div class="input-field col s12" style="margin-top: 25px;">
+                     <textarea id="textarea1" class="materialize-textarea" name="content" >
+                     </textarea>
+                     <label for="textarea1">Answer</label>
+                   </div>
+                   <%= submit_tag "Submit Answer", :id=>"submit_answer" %>
+                   <br>
+                 <% end %>
+              </div>
+            </div> 
+
+             .
+            <%= link_to m.messagefollowingbutton(m.id,current_user.id),url_for(controller: :messages, action: :toggle_message_following_button, message_followee_id: m.id),remote: true ,id: "message_follow1", class: 'message_follow'  %>
+            <% messagefollow_count = MessageFollow.where(message_followee_id:m.id) %>
+            <% if messagefollow_count.count > 0 %>
+              <% count=0 %>
+              <% @messagefollow.each do|mf| %>
+                <% if mf.message_followee_id == m.id %>
+                  <% count = count+1 %>   
+                <% end %> 
+              <% end %>     
+              <b style="color: grey;background-color: lightgrey;padding:2px; "><%= count %>  </b>
+            <% end %>
+  
+              &nbsp;. 
+            <%= link_to m.message_downvote_string(current_user.id), url_for(controller: 'messagedownvote', action: 'toggle_message_downvote', message_id: m.id),remote: true,id: "messagedownvote", class: 'message_downvote',:onclick => "Materialize.toast('Downvote', 4000)"%>  
+              <b style="color: grey;"><%= m.messagedownvotes.count %></b>
+          </div>
+        <% end %> 
+    <% end %>
+    <script >
+    	  function myfunction(p)
+          {
+             var $toastContent = $('<span>Message Deleted</span>').add($('<button   class="btn-flat toast-action">Undo</button>'));
+             Materialize.toast($toastContent, 30000);
+          }
+
+          $(document).ready(function() {
+         $("h6").each(function(){
+          $(this).click(function(){
+            $(this).siblings().slideToggle(2000);
+          })
+          
+         });
+  });
+
+      
+    </script>
+</body>
+</html>
+<!-- 
+#hy:hover
+{
+  background-color:whitesmoke;
+  color:black;
+}
+
+#edit-modal
+{
+     width: 50px;
+     font-size: 16px;
+     padding-top:5px;
+     padding-bottom:5px;
+     padding-right:8px;  
+     padding-left:8px;
+     margin-left:10px;
+     box-shadow:2px 2px 6px grey;
+     border-radius:2px;
+     color:brown;
+}
+
+#edit-modal:hover
+{
+     width: 50px;
+     font-size: 16px;
+     padding-top:5px;
+     padding-bottom:5px;
+     padding-right:8px;  
+     padding-left:8px;
+     margin-left:10px;
+     background-color:brown;
+     color:white;
+     border-radius:2px;    
+}
+
+
+#update_message
+{
+       padding:7px;
+       padding-left:20px;
+       padding-right:20px;
+       color:white;
+       font-size:15px;
+       background-color:#3E78AA;
+       border:1px solid white;
+       height:35px;
+       margin-left:460px;
+       border-radius:4px;
+}
+
+
+.delete_message
+{
+
+  height:30px;
+}
+   
+#message_follow1
+  {
+     color:grey;
+     margin-left:5px;
+  }
+
+
+#message_follow1:hover
+  {
+     color:grey;
+     margin-left:5px;
+     background-color:whitesmoke;
+  }
+
+#answer1
+{
+  padding-top:13px;
+  padding-bottom:3px;
+  padding-left:4px;
+  padding-right:4px;
+  margin-right:4px;
+  background-color:#f2f8fb;
+  border:1px solid #becddc;
+  border-radius:2px;
+  color:#34a6e3;
+}
+
+#answer1:hover
+{
+  padding-top:13px;
+  padding-bottom:3px;
+  padding-left:4px;
+  padding-right:4px;
+  margin-right:4px;
+  background-color:#f2f8fb;
+  border:1px solid grey;
+  border-radius:2px;
+  color:#34a6e3;
+}
+
+.answers_profile_pic img
+{
+  height:50px;
+  width:50px;
+  border-radius:100px;
+}
+
+#follow_person img
+{
+  height:50px;
+  width:50px;
+}
+
+#follow_person:hover
+{
+  background-color:whitesmoke;
+  text-decoration:none;
+}
+
+#answer_upvote_button
+{
+  padding:5px;
+  border:1px solid grey;
+  background-color:lightgreen;
+  margin-bottom:10px;
+  color:green;
+}
+
+#answer_upvote_button:hover
+{
+  padding:4px;
+  border:1px solid lightgreen;
+  background-color:white;
+  margin-bottom:10px;
+  color:green;
+} -->

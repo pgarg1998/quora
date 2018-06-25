@@ -1,0 +1,10 @@
+$('.CommentUpvoteDiv[data-id=<%= @comm %>] a.comment_downvote').html("<%= @commentdownvote == true ? 'Downvoted' : 'Downvote' %>");
+// var x = $('.CommentUpvoteDiv[data-id=<%= @comm %>] b.qwert').text();
+// if(<%= @commentdownvote == true %>)
+// var a = parseInt(x)+1;
+// else
+// var a = parseInt(x)-1;
+// $('.CommentUpvoteDiv[data-id=<%= @comm %>] b.qwert').text(a);
+
+$('.CommentUpvoteDiv[data-id=<%= @comm %>] a.comment_upvote').html("<%= @commentupvote == true ? 'Upvoted' : 'Upvote' %>");
+

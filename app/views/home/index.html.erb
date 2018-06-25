@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+    <div style="height: 90px; width: 590px;border:1px solid darkgrey;padding: 10px;margin-left: 355px;margin-top: 100px;margin-bottom: -80px; ">
+                    <div style="margin-bottom: 20px;">
+                        <div>
+                          <% if current_user.profile_picture %>
+                            <a href="/Profiles" class="name_link"><img src="/uploads/<%=current_user.profile_picture %>" id="image"></a>
+                          <% else %>
+                            <a href="/Profiles" class="name_link"><img src="/uploads/checkmark.png" id="image"></a>
+                          <% end %>
+                        </div>
+                        <div style="margin-top:-30px;margin-left: 35px;font-size: 13px;color: grey;">
+                         <%if current_user.name%>
+                           <a href="/Profiles" class="name_link" > <%= current_user.name %></a><br>
+                         <%else%>
+                           <a href="/Profiles"  class="name_link"><%= current_user.firstname %> <%= current_user.lastname %></a><br>
+                         <%end%>
+                        </div>
+                    </div>
+                    <a href="#modal4m" id="what_your_question" class="modal-trigger"><b>What is your Question?</b></a>
+
+                    <div id="modal4m" class="modal" style="width:650px;border-radius: 10px;">
+                      <div class="modal-content">
+                        <div>
+                          <div>
+                            <% if current_user.profile_picture %>
+                              <img src="/uploads/<%=current_user.profile_picture %>" id="image">
+                            <% else %>
+                              <img src="/uploads/checkmark.png" id="image">
+                            <% end %>
+                          </div>
+                          <div style="margin-top:-30px;margin-left: 35px;font-size: 13px;color: black;">
+                            <%if current_user.name%>
+                              <b><%= current_user.name %></b> added<br>
+                            <%else%>
+                              <b><%= current_user.firstname %> <%= current_user.lastname %></b> added<br>
+                            <%end%>
+                          </div>
+                        </div>
+                        <br>
+                        <%= form_tag({:controller => "messages", :action => "create"},remote: true, method: :post) do %>
+<!--                      <%= text_area_tag :content, nil, required: true %>
+ -->                    
+                          <div class="input-field col s6">
+                            <textarea id="textarea1" class="materialize-textarea" name="content" placeholder="Start your question with 'What','Why','How',etc " maxlength="140"></textarea>
+                          </div>
+                          <br>
+                          <div class="submit_tag" style="background-color: #F6F6F5; padding-top: 25px;padding-bottom: 20px;padding-left: 10px;width:600px;height: 90px;">
+                            <%= submit_tag "Add Question" ,:id=>"create_question" %>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div> 
+    </div>
+
+   <div class="all_messages">
+      <% @message.each do|m| %>
+        <div class="message_divs" data-id=<%=m.id%> >
+          <div class="message_divs_header">
+              <div class="message_divs_header_left">
+                <div class="message_profile_pic">
+                  <% if m.user.profile_picture %>
+                    <img src="/uploads/<%=m.user.profile_picture %>">
+                   <% else %>
+                    <img src="/uploads/checkmark.png">
+                  <% end %>
+                </div> 
+                 <div class="message_user_name">
+                   <%if m.user.name%>
+                     <span><%= m.user.name %>, <%= m.user.ProfileCredential %><br></span>
+                    <%else%>
+                     <span ><%= m.user.firstname %> <%= m.user.lastname %>, <%= m.user.ProfileCredential %><br></span>
+                   <%end%>
+                    <!-- time zone comes here -->
+                    <div style="font-size: 10px; color: grey;">
+                           <% t = m.created_at %>
+                           <%= t.strftime("%b %d, %Y") %>
+                    </div>
+                 </div>
+              </div>
+              <!-- <div class="message_divs_header_right">
+                <% if current_user.id != m.user_id %>
+                  <div class="Follow">
+                    <% if m.can_follow(m.user_id,current_user.id) %>
+                      <%= link_to image_tag("/follow.svg", width: 50, height: 50, class: 'dock-items'), url_for(controller: :home,action: :follow, followee_id: m.user_id, user_email: m.user.email, user_profileimage: m.user.profile_picture), :id => "follow_person#{m.user_id}",remote: true %>
+                     <% else %>
+                      <%= link_to image_tag("/following.png", width: 50, height: 50, class: 'dock-items1'), url_for(controller: :home,action: :un_follow, followee_id: m.user_id,user_email: m.user.email, user_profileimage: m.user.profile_picture ),:id => "unfollow_person#{m.user_id}", remote: true %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div> -->
+              <div class="message_divs_header_right">
+                <% if current_user.id != m.user_id %>
+                  <% if m.can_follow(m.user_id,current_user.id)==0%>
+                    <div style="display: block;" onclick="followtoggle()">
+                      <%= link_to image_tag("/follow.svg", width: 50, height: 50, class: 'dock-items'), url_for(controller: :home,action: :follow, followee_id: m.user_id, user_email: m.user.email, user_profileimage: m.user.profile_picture), :id => "follow_person" %>
+                    </div>
+                  <% else %>
+                    <div style="display: block;" onclick="unfollowtoggle()">
+                      <%= link_to image_tag("/following.png", width: 50, height: 50, class: 'dock-items1'), url_for(controller: :home,action: :un_follow, followee_id: m.user_id,user_email: m.user.email, user_profileimage: m.user.profile_picture ),:id => "unfollow_person"%>       
+                    </div>
+                  <% end %>   
+                <% end %>
+              </div>
+          </div>    <!-- message_header_divs ends here -->
+          <!-- message content -->
+          <div style="width:100%;">
+            <b id="ques_link">
+              <%= link_to m.content, message_path(m.id) %>    
+            </b>
+          </div>
+          <br>
+          <% answer = Answer.where(message_id: m.id) %>
+          <% if answer.count > 0 %>
+            <% ans = 0%>
+            <% answer.each do |a| %>
+              <% if a.message_id == m.id %>
+                <% ans = ans+1 %>
+              <% end %>
+            <% end %>
+            <b style="color: grey;margin-left: 8px;"> <%= ans %> Answers</b><br>
+            <!-- create answer modal -->            
+            <a class=" modal-trigger" href="#modal4<%=m.id%>" id="answer">
+              <i class="material-icons">mode_edit</i>Answer .
+            </a>
+            <div id="modal4<%=m.id%>" class="modal" style="width: 606px;height: 280px; border-radius: 10px;">
+              <div class="modal-content">
+                <div style="background-color: whitesmoke;height: 60px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                   <div>
+                      <% if current_user.profile_picture %>
+                        <img src="/uploads/<%=current_user.profile_picture %>" id="image">
+                      <% else %>
+                        <img src="/uploads/checkmark.png" id="image">
+                      <% end %>
+                   </div>
+                   <div style="margin-top:-30px;margin-left: 35px;font-size: 13px;color: black;">
+                      <%if current_user.name%>
+                        <b><%= current_user.name %>, <%= current_user.ProfileCredential %></b> added<br>
+                      <%else%>
+                        <b><%= current_user.firstname %> <%= current_user.lastname %>, <%= current_user.ProfileCredential %></b> added<br>
+                      <%end%>
+                   </div>
+                </div>
+                 <div style="margin-left: -25px;width: 606px;color: grey;"><hr></div>
+                 <%= form_tag({:controller => "answers", :action => "create"}, method: :post) do %>
+                   <%= hidden_field_tag "message_id", m.id %>
+                   <div class="input-field col s12" style="margin-top: 25px;">
+                     <textarea id="textarea1" class="materialize-textarea" name="content" >
+                     </textarea>
+                     <label for="textarea1">Answer</label>
+                   </div>
+                   <%= submit_tag "Submit Answer", :id=>"submit_answer" %>
+                   <br>
+                 <% end %>
+              </div>
+            </div> 
+            <!-- create answer modal ends here -->            
+            <!-- message follow -->
+              
+              <%= link_to m.messagefollowingbutton(m.id,current_user.id),url_for(controller: :messages, action: :toggle_message_following_button, message_followee_id: m.id),remote: true ,id: "message_follow", class: 'message_follow'  %>
+              <% messagefollow_count = MessageFollow.where(message_followee_id:m.id) %>
+              <% if messagefollow_count.count > 0 %>
+                <% count=0 %>
+                <% @messagefollow.each do|mf| %>
+                  <% if mf.message_followee_id == m.id %>
+                    <% count = count+1 %>   
+                  <% end %> 
+                <% end %>     
+                <b style="color: grey;background-color: lightgrey;padding:2px; " class="asdfgh"><%= count %> </b>
+              <% end %>
+              <!-- message follow ends here -->              
+              <!-- message downvote --> 
+            
+            . 
+            <%= link_to m.message_downvote_string(current_user.id), url_for(controller: 'messagedownvote', action: 'toggle_message_downvote', message_id: m.id),remote: true,id: "messagedownvote", class: 'message_downvote',:onclick => "Materialize.toast('Downvote', 4000)"%>  
+              <b style="color: grey;" class="qwerty"><%= m.messagedownvotes.count %></b>
+            <!-- message downvote ends here -->         
+          <% else %>
+             <b style="color: grey;margin-left: 10px;">No Answers yet</b><br>
+            <!-- create answer modal -->          
+            <a class=" modal-trigger" href="#modal4<%=m.id%>" id="answer">
+              <i class="material-icons">mode_edit</i>Answer .
+            </a>
+            <div id="modal4<%=m.id%>" class="modal" style="width: 610px;height: 280px; border-radius: 10px;">
+              <div class="modal-content">
+               <div  style="background-color: whitesmoke;height: 60px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                   <div>
+                      <% if current_user.profile_picture %>
+                        <img src="/uploads/<%=current_user.profile_picture %>" id="image">
+                      <% else %>
+                        <img src="/uploads/checkmark.png" id="image">
+                      <% end %> 
+                   </div>
+                   <div style="margin-top:-30px;margin-left: 35px;font-size: 13px;color: black;">
+                      <%if current_user.name%>
+                        <b><%= current_user.name %></b> added<br>
+                      <%else%>
+                        <b><%= current_user.firstname %> <%= current_user.lastname %></b> added<br>
+                      <%end%>
+                   </div>
+                </div>
+
+                <div style="margin-left: -25px;width: 606px;color: grey;"><hr></div>
+                 <%= form_tag({:controller => "answers", :action => "create"}, method: :post) do %>
+                   <%= hidden_field_tag "message_id", m.id %>
+                   <div class="input-field col s12">
+                     <textarea id="textarea1" class="materialize-textarea" name="content" ></textarea>
+                     <label for="textarea1">Answer</label>
+                   </div>
+                   <%= submit_tag "Submit Answer", :id=>"submit_answer" %>
+                   <br>
+                 <% end %>
+              </div>
+            </div>
+            <!-- create answer modal ends here -->            
+            <%= link_to m.messagefollowingbutton(m.id,current_user.id),url_for(controller: :messages, action: :toggle_message_following_button, message_followee_id: m.id),remote: true,id: "message_follow", class: 'message_follow' %> 
+            <% messagefollow_count = MessageFollow.where(message_followee_id:m.id) %>
+            <% if messagefollow_count.count > 0 %>
+              <% count=0 %>
+              <% @messagefollow.each do|mf| %>
+                <% if mf.message_followee_id == m.id %>
+                  <% count = count+1 %>   
+                <% end %> 
+              <% end %>     
+              <b style="color:grey; background-color:lightgrey; padding:2px;"><%= count %></b>
+            <% end %>      
+            . <%= link_to m.message_downvote_string(current_user.id), url_for(controller: 'messagedownvote', action: 'toggle_message_downvote', message_id: m.id),remote: true,id: "messagedownvote", class: 'message_downvote',:onclick => "Materialize.toast('Downvote', 4000)" %> 
+              <b style="color: grey;"><%= m.messagedownvotes.count %></b>
+          <% end %>     
+
+        </div> <!-- message_divs ends here --> 
+      <% end %>
+   </div>   <!-- all_messages div ends here -->
+   <script>     function followtoggle() {
+          var image = document.getElementById('follow_person');
+          if (image.src.match("following")) {
+              image.src = "/follow.svg";
+          } else {
+              image.src = "/following.png";
+          }
+        }
+
+        function unfollowtoggle() {
+          var image = document.getElementById('unfollow_person');
+          if (image.src.match("follow")) {
+              image.src = "/following.png";
+          } else {
+              image.src = "/follow.svg";
+          }
+        }
+   </script>
+</body>
+</html>

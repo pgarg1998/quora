@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+<div style="height: 500px; width: 700px;background-color: whitesmoke;margin-left: 280px;margin-top: 130px;padding-left: 5px;padding-top: 5px;">
+  <h5 style="text-align: center">Edit your profile</h5>
+
+  <%= form_tag url_for(controller: :home, action: :firstname_lastname_update),method: :post, multipart: true do %>
+           <div>
+             <label >First Name</label>
+             <input name="Firstname" value=  <%=current_user.firstname%>  >
+           </div>
+           <div>
+             <label>Last Name</label>
+             <input name="Lastname" value=  <%=current_user.lastname%>>
+           </div>
+           <div>
+            <label>Birthdate</label>
+             <input type="date" name="birthday" value=<%=current_user.birthday%> >
+           </div>
+           <%= file_field_tag :image_tag, required: true %>
+           <br><br>
+           <%= submit_tag "SAVE" %>
+  <% end %>    
+</div>
+<script type="text/javascript">
+  
+///below 3 lines are for autocomplete copied from application.html.erb
+    $( "#home_autocomplete" ).autocomplete({
+      source: '/questions_api'
+    });
+</script>
+</body>
+</html>
+
+

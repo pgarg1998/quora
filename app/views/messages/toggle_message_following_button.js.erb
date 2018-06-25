@@ -1,0 +1,26 @@
+$('.message_divs[data-id=<%= @msg %>] a.message_follow').html("<%= @followings == true ? 'following' : 'follow' %>");
+
+var x = $('.message_divs[data-id=<%= @msg %>] b.asdfgh').text();
+if(<%= @followings == true %>)
+var a = parseInt(x)+1;
+else
+var a = parseInt(x)-1;
+$('.message_divs[data-id=<%= @msg %>] b.asdfgh').text(a);
+
+// $('.yourquestions_div[data-id=<%= @msg %>] a.message_follow').html("<%= @following == true ? 'following' : 'follow' %>");
+$('div.particular_message div#message_follow a').html("<%= @followings == true ? 'Following' : 'Follow' %>");
+var x = $('div.particular_message div#message_follow b.qwerty').text();
+if(<%= @followings == true %>)
+var a = parseInt(x)+1;
+else
+var a = parseInt(x)-1;
+$('div.particular_message div#message_follow b.qwerty').text(a);
+
+
+$('#lower_part_rightside-questions div.yourquestions_div[data-id=<%= @msg %>] a.message_follow').html("<%= @followings == true ? 'Following' : 'Follow' %>");
+var x = $('#lower_part_rightside-questions div.yourquestions_div[data-id=<%= @msg %>] b.message_follow_qwerty').text();
+if(<%= @followings == true %>)
+var a = parseInt(x)+1;
+else
+var a = parseInt(x)-1;
+$('#lower_part_rightside-questions div.yourquestions_div[data-id=<%= @msg %>] b.message_follow_qwerty').text(a);

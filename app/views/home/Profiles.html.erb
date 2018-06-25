@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <!-- upper part -->
+  <div style="margin-top: 120px; margin-left: 100px;">
+    <div class="profiles_current_user-pic">
+      <% if current_user.profile_picture %>
+        <img src="/uploads/<%=current_user.profile_picture %>">
+      <% else %>
+        <img src="/uploads/checkmark.png">
+      <% end %>
+    </div> 
+    <div class="profiles_current_user-name">
+      <%if current_user.name%>
+        <span><b><%= current_user.name %></b><br></span>
+      <%else%>
+        <span><b><%= current_user.firstname %> <%= current_user.lastname %></b><br></span>
+      <%end%>
+    </div>
+    <div class="profiles_current_user-ProfileCredential">
+      <% if current_user.ProfileCredential %>
+        <span style="color: black;font-size: 16px;"><%= current_user.ProfileCredential %></span>
+        <a href="#modal13" class="modal-trigger" id="profiles_current_user-ProfileCredential-edit">Edit</a>
+        <div id="modal13" class="modal" style="width: 606px;height: 280px; border-radius: 10px;margin-top: 130px;">
+                <div class="modal-content">
+                  <div style="background-color: whitesmoke;height: 80px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                     <div style="font-size: 18px;"><b>Edit Credentials</b></div>
+                     <div style="color: grey;font-size: 15px;margin-top: 5px;">Credentials also appear on answers you write.</div>
+                  </div>
+                  <div style="margin-left: -25px;width: 606px;color: grey;"><hr></div>
+                    <%= form_tag({:controller => "home", :action => "credential"}, method: :post) do %>
+                      <div class="input-field col s12" style="margin-top: 25px;">
+                        <input id="textarea1" class="materialize-textarea" name="content" value="<%= current_user.ProfileCredential %>" maxlength="100"> 
+                        </input>
+                      </div>
+                      <%= submit_tag "Save", :id=>"save_credential" %>
+                      <br>
+                    <% end %>
+                 </div>
+                </div>
+        </div>
+      <% else %>
+        <a href="#modal14" class="modal-trigger" id="profiles_current_user-ProfileCredential-edit_elsepart">Add Profile Credential</a>
+        <div id="modal14" class="modal" style="width: 606px;height: 280px; border-radius: 10px;margin-top: 130px;">
+                <div class="modal-content">
+                  <div style="background-color: whitesmoke;height: 80px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                     <div style="font-size: 18px;"><b>Edit Credentials</b></div>
+                     <div style="color: grey;font-size: 15px;margin-top: 5px;">Credentials also appear on answers you write.</div>
+                  </div>
+                  <div style="margin-left: -25px;width: 606px;color: grey;"><hr></div>
+                    <%= form_tag({:controller => "home", :action => "credential"}, method: :post) do %>
+                      <div class="input-field col s12" style="margin-top: 25px;">
+                        <textarea id="textarea1" class="materialize-textarea" name="content" placeholder="Write Here" maxlength="100">
+                        </textarea>
+                      </div>
+                      <%= submit_tag "Save", :id=>"save_credential" %>
+                      <br>
+                    <% end %>
+                 </div>
+                </div>
+        </div>
+      <% end %>          
+    </div>
+    <div class="profiles_current_user-description">
+      <% if current_user.Description %>
+        <span style="color: black;font-size: 18px;"><%= current_user.Description %></span>
+        <a href="#modal14" class="modal-trigger" id="profiles_current_user-ProfileCredential-edit">Edit</a>
+        <div id="modal14" class="modal" style="width: 606px;height: 280px; border-radius: 10px;margin-top: 130px;">
+                <div class="modal-content">
+                  <div style="background-color: whitesmoke;height: 60px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                     <div style="font-size: 18px;"><b>Edit Your Description</b></div>
+                  </div>
+                  <div style="margin-left: -25px;width: 606px;color: grey;"><hr></div>
+                    <%= form_tag({:controller => "home", :action => "Description"}, method: :post) do %>
+                      <div class="input-field col s12" style="margin-top: 25px;">
+                        <input id="textarea1" class="materialize-textarea" name="content" value="<%= current_user.Description %>" maxlength="100"> 
+                        </input>
+                      </div>
+                      <%= submit_tag "Update", :id=>"save_credential" %>
+                      <br>
+                    <% end %>
+                 </div>
+                </div>
+        </div>
+      <% else %>
+        <a href="#modal14" class="modal-trigger" id="profiles_current_user-ProfileCredential-edit_elsepart">Write a description about yourself</a>
+        <div id="modal14" class="modal" style="width: 606px;height: 310px; border-radius: 10px;margin-top: 130px;">
+                <div class="modal-content">
+                  <div style="background-color: whitesmoke;height: 60px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                     <div style="font-size: 18px;color: black;"><b>Write Your Description</b></div>
+                  </div>
+                  <div style="margin-left: -25px;width: 606px;color: grey;"><hr></div>
+                    <%= form_tag({:controller => "home", :action => "Description"}, method: :post) do %>
+                    <br>
+                      <i class=" material-icons">person_pin</i>
+                      <div class="input-field col s6" style="margin-top: 25px; color: black;">
+                        <textarea id="textarea1" class="materialize-textarea" name="content" placeholder="Write Here" maxlength="200" required>
+                        </textarea>
+                      </div>
+                      <%= submit_tag "Update", :id=>"save_credential" %>
+                      <br>
+                    <% end %>
+                 </div>
+                </div>
+        </div>
+      <% end %>
+    </div>
+    <%c=0%>
+    <% @follow.each do |f| %>    
+      <% if f.followee_id == current_user.id %>  
+         <% c=c+1 %>   
+      <% end %>
+    <% end %>
+    <div class="profiles_current_user-followercount"><%= c %> Followers</div>
+  </div> <!-- upper part ends-->
+  <!-- horizontal line -->
+  <div style="margin-left: 100px;margin-top: 50px;border-bottom: 2px solid whitesmoke;width:800px;"></div>
+  <!-- lower part begins-->
+  <div style="display: flex;">
+    <div class="lower_part_leftside">
+      <span>Feeds</span>
+      <div style="width:160px;margin-top: 10px; margin-left: -1px;margin-bottom: 3px;border-bottom: 1px solid whitesmoke">
+         <!-- underline under feeds -->
+      </div>
+      <ul class="lower_part_ul">
+        <li onclick="document.getElementById('lower_part_rightside-questions').style.display='none',document.getElementById('lower_part_rightside-answers').style.display='block',document.getElementById('lower_part_rightside-followers').style.display='none',document.getElementById('lower_part_rightside-followings').style.display='none',document.getElementById('lower_part_rightside-bookmarks').style.display='none'">
+          <% ans=0 %>
+          <% @answer.each do|a| %>
+            <% if a.user.id == current_user.id %>
+               <% ans=ans+1 %>
+            <% end %>   
+          <% end %>
+          <span class="heading"> Answers </span>
+          <span><%= ans %></span>
+        </li>
+        <li onclick="document.getElementById('lower_part_rightside-questions').style.display='block',document.getElementById('lower_part_rightside-answers').style.display='none',document.getElementById('lower_part_rightside-followers').style.display='none',document.getElementById('lower_part_rightside-followings').style.display='none',document.getElementById('lower_part_rightside-bookmarks').style.display='none'">
+          <% q=0 %>
+          <% @message.each do|m| %>
+            <% if m.user.id == current_user.id %>
+              <% q=q+1 %>
+            <% end %>   
+          <% end %>
+          <span class="heading">Questions </span>
+          <span><%= q %></span>
+        </li>
+        <li onclick="document.getElementById('lower_part_rightside-questions').style.display='none',document.getElementById('lower_part_rightside-answers').style.display='none',document.getElementById('lower_part_rightside-followers').style.display='block',document.getElementById('lower_part_rightside-followings').style.display='none',document.getElementById('lower_part_rightside-bookmarks').style.display='none'">
+          <%c=0%>
+          <% @follow.each do |f| %>    
+            <% if f.followee_id == current_user.id %>  
+              <% c=c+1 %>   
+            <% end %>
+          <% end %>
+          <span class="heading"> Followers </span>
+          <span><%= c %></span> 
+        </li>
+        <li onclick="document.getElementById('lower_part_rightside-questions').style.display='none',document.getElementById('lower_part_rightside-answers').style.display='none',document.getElementById('lower_part_rightside-followers').style.display='none',document.getElementById('lower_part_rightside-followings').style.display='block',document.getElementById('lower_part_rightside-bookmarks').style.display='none'">
+          <span class="heading">Followings </span>
+          <span><%= current_user.followee_ids.count %></span>
+        </li>
+        <li onclick="document.getElementById('lower_part_rightside-questions').style.display='none',document.getElementById('lower_part_rightside-answers').style.display='none',document.getElementById('lower_part_rightside-followers').style.display='none',document.getElementById('lower_part_rightside-followings').style.display='none',document.getElementById('lower_part_rightside-bookmarks').style.display='block'">
+          <%c=0%>
+          <% @bookmark.each do |b| %>    
+            <% if b.user_id == current_user.id %>  
+              <% c=c+1 %>   
+            <% end %>
+          <% end %>
+          <span class="heading">Bookmarks </span>
+          <span> <%=c%></span>
+        </li>
+      </ul>
+    </div>
+    <div class="lower_part_rightside">
+      <div id="lower_part_rightside-answers">
+        <% ans=0 %>
+        <% @answer.each do|a| %>
+          <% if a.user.id == current_user.id %>
+            <% ans=ans+1 %>
+          <% end %>   
+       <% end %>
+        <span style="font-size: 15px;"> <%= ans %> Answers</span>
+        <div style="width:600px;margin-top: 10px; margin-left: -1px;margin-bottom: 3px;border-bottom: 1px solid whitesmoke">
+             <!-- underline under answers -->
+        </div>
+        <% @answer.each do|a| %>
+          <% if a.user.id == current_user.id %>
+               <% @message.each do|m| %>
+                  <% if a.message_id == m.id %>
+                     <div class="youranswers_div" data-id=<%=a.id%>> 
+                        <div>
+                            <div>
+                              <b style="font-size: 25px;"><%= m.content %></b>
+                            </div>
+                            <div style="display: flex;">  
+                              <div class="lower_part_rightside-answers_pic">
+                                <% if a.user.profile_picture %>
+                                  <img src="/uploads/<%=a.user.profile_picture %>">
+                                 <% else %>
+                                  <img src="/uploads/checkmark.png">
+                                <% end %>
+                              </div> 
+                              <div style="display: flex; justify-content: space-between;width: 500%;">  
+                                <div style="margin-top: 10px;margin-left: 10px;">
+                                   <%if a.user.name%>
+                                     <span><%= a.user.name %><br></span>
+                                    <%else%>
+                                     <span ><%= a.user.firstname %> <%= a.user.lastname %>, <%= a.user.ProfileCredential %> <br></span>
+                                   <%end%>
+                                     <!-- time zone comes here -->
+                                   <div style="font-size: 10px; color: grey;">
+                                            <% t = a.created_at %> Answered
+                                            <%= t.strftime("%b %d, %Y") %>
+                                   </div>
+                                </div>
+                                <div class="answer_bookmark">
+                                  <% bookmark = a.answer_bookmark(a.id,current_user.id) %>
+                                    <% if bookmark == 0 %>
+                                      <span class="tooltipped" data-position="top" data-tooltip="Bookmarked" style="cursor: pointer;">  
+                                         <%= link_to url_for(controller: :answerbookmark, action: :createbookmark, answer_id: a.id),id: "check" do%>
+                                           <i class="material-icons">check</i>
+                                         <% end %>
+                                      </span>   
+                                    <% else %>
+                                      <span class="tooltipped" data-position="top" data-tooltip="Bookmark" style="cursor: pointer;"> 
+                                         <%= link_to url_for(controller: :answerbookmark, action: :createbookmark, answer_id: a.id),id: "bookmark" do%>
+                                               <i class="material-icons">bookmark</i>
+                                         <% end %>
+                                      </span>   
+                                    <% end %>                       
+                                </div>
+                              </div>  
+                            </div> 
+                            <div style="color: black; font-size:18px;"><%= a.content %></div>
+                            <% count = 0 %>
+                            <% @upvote.each do|u| %>
+                               <% if u.answer_id == a.id %>
+                                  <% count = count+1 %>
+                               <% end %>
+                            <% end %>
+                            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                
+                                <div style="color:grey; font-size: 16px;"> <%=count%> Upvotes 
+                                </div>
+                                <!-- <div>
+                                  <div class="dropup">
+                                    <a href="#dropup-content<%=a.id%>" onclick="return toggle_3_dots();"   class="dropbtn">
+                                      <i class="material-icons">more_horiz</i>
+                                    </a>
+                                    <div id="dropup-content<%=a.id%>">  
+                                      <div class="dropup-content" id="dropup-con" >
+                                        <%= a.id %>
+                                        <%= link_to "Delete Answer",url_for(controller: :answers, action: :destro1, id: a.id),id: "lower_part_rightside-answers_deleteanswer" ,data: { confirm: 'Are you sure?' } %>
+
+                                        <%= link_to m.message_downvote_string(current_user.id), url_for(controller: 'messagedownvote', action: 'toggle_message_downvote', message_id: m.id),remote: true, class: 'message_downvote',id: "lower_part_rightside-answers_messagedownvote" ,:onclick => "Materialize.toast('Downvote', 4000)"%>
+                                        
+                                        <a class=" modal-trigger" href="#modal10<%=a.id%>">      Edit Answer
+                                        </a> 
+                                        
+                                        <div id="modal10<%=a.id%>" class="modal" style="width: 605px; border-radius: 8px;">
+                                          <div class="modal-content">
+                                             <div style="background-color: whitesmoke;height: 60px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                                               <div>
+                                                  <% if current_user.profile_picture %>
+                                                    <img src="/uploads/<%=current_user.profile_picture %>" id="image">
+                                                  <% else %>
+                                                    <img src="/uploads/checkmark.png" id="image">
+                                                  <% end %>
+                                               </div>
+                                               <div style="margin-top:-30px;margin-left: 35px;font-size: 13px;color: black;">
+                                                  <%if current_user.name%>
+                                                    <b><%= current_user.name %></b> added<br>
+                                                  <%else%>
+                                                    <b><%= current_user.firstname %> <%= current_user.lastname %></b>,
+                                                    <%= current_user.ProfileCredential %>                                                       
+                                                    <br>
+                                                  <%end%>
+                                               </div>
+                                             </div>
+                                             <div style="margin-left: -25px;width: 606px;color: grey; margin-bottom: 40px;"><hr>
+                                             </div>
+                                             <%= form_tag({:controller => "answers", :action => "updat1"}, method: :post) do %>
+                                               <%= hidden_field_tag "id", a.id %>
+                                               <div class="input-field col s6">
+                                                  <input id="first_name" type="text" class="validate" value="<%= a.content %>" name="Answer">
+                                                  <label for="first_name">Your Answer</label>
+                                               </div>
+                                               <%= submit_tag "update" , :id=>"update_message" %>
+                                               <br>
+                                             <% end %>
+                                          </div>
+                                        </div>
+                                        <a href="#">Bookmark</a>
+                                      </div>
+                                    </div> 
+                                  </div>
+                                </div> -->
+                            </div>  
+                        </div>
+                     </div>
+                  <% end %>
+               <% end %>   
+          <% end %>
+        <% end %>
+      </div>
+      <div id="lower_part_rightside-questions">
+        <% q=0 %>
+        <% @message.each do|m| %>
+          <% if m.user.id == current_user.id %>
+            <% q=q+1 %>
+          <% end %>   
+        <% end %>
+        <span style="font-size: 15px;"> <%= q %> Questions</span>
+        <div style="width:600px;margin-top: 10px; margin-left: -1px;margin-bottom: 3px;border-bottom: 1px solid whitesmoke">
+             <!-- underline under questions -->
+        </div>
+        <% @message.each do|m| %>
+          <% if m.user.id == current_user.id %>
+            <div class="yourquestions_div" data-id=<%=m.id%>>
+              <div >
+                <div>
+                  <b style="font-size: 25px;"><%= m.content %></b>
+                </div>
+                <div style="display: flex; margin-right: 30px;margin-left: 540px;margin-top: -30px;"> 
+                  <%= link_to image_tag("/delete.png", class: "delete_message"),url_for(controller: :messages, action: :destro, id: m.id), :id => 'hy',data: { confirm: 'Are you sure?' } %>
+
+                  <a class=" modal-trigger" href="#modal9<%=m.id%>" id="edit-modal" >   Edit
+                  </a>         
+                  <!-- Modal Structure -->
+                  <div id="modal9<%=m.id%>" class="modal" style="width: 605px; border-radius: 8px;">
+                      <div class="modal-content" >
+                        <div style="background-color: whitesmoke;height: 60px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                            <div>
+                              <% if current_user.profile_picture %>
+                                <img src="/uploads/<%=current_user.profile_picture %>" id="image">
+                              <% else %>
+                                <img src="/uploads/ch eckmark.png" id="image">
+                              <% end %>
+                            </div>
+                            <div style="margin-top:-30px;margin-left: 35px;font-size: 13px;color: black;">
+                              <%if current_user.name%>
+                                <b><%= current_user.name %></b> added<br>
+                              <%else%>
+                                <b><%= current_user.firstname %> <%= current_user.lastname %> </b><br>
+                              <%end%>
+                            </div>
+                        </div>
+                        <div style="margin-left: -25px;width: 606px;color: grey; margin-bottom: 40px;"><hr></div>
+                            <%= form_tag({:controller => "messages", :action => "updat"}, method: :post) do %>
+                              <%= hidden_field_tag "id", m.id %>
+                              <div class="input-field col s6">
+                                  <input id="first_name" type="text" class="validate" value="<%= m.content %>" name="Question">
+                                  <label for="first_name">Your Question</label>
+                              </div>
+                              <%= submit_tag "update" , :id=>"update_message" %>
+                              <br>
+                            <% end %>
+                      </div>
+                  </div> 
+              </div>
+            </div>    
+            <% answer = Answer.where(message_id: m.id) %>
+              <% if answer.count > 0 %>
+                <% ans = 0%>
+                  <% @answer.each do |a| %>
+                    <% if a.message_id == m.id %>
+                      <% ans = ans+1 %>
+                    <% end %>
+                  <% end %>
+                  <div>
+                    <h6 style="color: grey; font-size: 13px; display: block;cursor: pointer;">
+                      <%= ans %> Answers . Asked
+                      <% t = m.created_at %>
+                      <%= t.strftime("%b %d, %Y") %>
+                    </h6> 
+                    <span style="display: none;"> 
+                      <% @answer.each do|a| %>
+                        <% if a.message_id == m.id %>
+                          <div class="ans" data-id=<%=a.id%> >
+                            <div style="display: flex;margin-top: 0px;">
+                              <div class="answers_profile_pic"> 
+                                <% if a.user.profile_picture %>
+                                    <img src="/uploads/<%=a.user.profile_picture %>">
+                                <% else %>
+                                    <img src="/uploads/checkmark.png">
+                                <% end %>
+                              </div>                  
+                              <div style="margin-left: 5px;margin-top: 5px;">
+                                <span style="font-size: 16px;color: black;">
+                                  <%if a.user.name%>
+                                    <b><%= a.user.name %></b> added<br>
+                                  <%else%>
+                                    <b><%= a.user.firstname %> <%= a.user.lastname %>, <%= a.user.ProfileCredential %> </b><br>
+                                  <%end%>
+                                </span>
+                                <span style="font-size: 10px;color: grey;">
+                                            Answered 
+                                  <% t = a.created_at %>
+                                  <%= t.strftime("%b %d, %Y") %>
+                                </span>  
+                              </div>               
+                            </div>
+                            <br>  
+                            <div style="font-size: 20px;">
+                                <%= a.content %>   
+                            </div> 
+                            <br>
+                            <b class="answer_upvote_button">
+                                <%= link_to a.upvote_string(current_user.id), url_for(controller: :upvotes,action: :toggle_answer_upvote, answer_id: a.id), :id => "answer_upvote_button",remote: true %> Upvotes
+                            </b>
+                            <br><br>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </span>                         
+                  </div>    
+              <% else %>  
+                <b style="color: red;margin-left: 2px;"> No answers yet </b>. Asked
+                <% t = m.created_at %>
+                <%= t.strftime("%b %d, %Y") %> 
+                <br><br> 
+              <% end %>   
+              <a class=" modal-trigger" href="#modal4<%=m.id%>" id="answer1">
+                <i class="material-icons">mode_edit</i>Answer
+              </a>
+              <div id="modal4<%=m.id%>" class="modal" style="width: 606px;height: 280px; border-radius: 10px;">
+                  <div class="modal-content">
+                    <div style="background-color: whitesmoke;height: 60px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+                      <div>
+                        <% if current_user.profile_picture %>
+                          <img src="/uploads/<%=current_user.profile_picture %>" id="image">
+                        <% else %>
+                          <img src="/uploads/checkmark.png" id="image">
+                        <% end %>
+                      </div>
+                      <div style="margin-top:-30px;margin-left: 35px;font-size: 13px;color: black;">
+                          <%if current_user.name%>
+                            <b><%= current_user.name %></b> added<br>
+                          <%else%>
+                            <b><%= current_user.firstname %> <%= current_user.lastname %></b> added<br>
+                          <%end%>
+                      </div>
+                    </div>
+                    <div style="margin-left: -25px;width: 606px;color: grey;"><hr></div>
+                    <%= form_tag({:controller => "answers", :action => "create"}, method: :post) do %>
+                      <%= hidden_field_tag "message_id", m.id %>
+                      <div class="input-field col s12" style="margin-top: 25px;">
+                        <textarea id="textarea1" class="materialize-textarea" name="content" >
+                        </textarea>
+                        <label for="textarea1">Answer</label>
+                      </div>
+                      <%= submit_tag "Submit Answer", :id=>"submit_answer" %>
+                      <br>
+                    <% end %>
+                  </div>
+              </div> 
+              .
+              <%= link_to m.messagefollowingbutton(m.id,current_user.id),url_for(controller: :messages, action: :toggle_message_following_button, message_followee_id: m.id),remote: true ,id: "message_follow1", class: 'message_follow'  %>
+              <% messagefollow_count = MessageFollow.where(message_followee_id:m.id) %>
+                  <% if messagefollow_count.count > 0 %>
+                    <% count=0 %>
+                    <% @messagefollow.each do|mf| %>
+                      <% if mf.message_followee_id == m.id %>
+                        <% count = count+1 %>   
+                      <% end %> 
+                    <% end %>     
+                    <b style="color: grey;background-color: lightgrey;padding:2px; " class="message_follow_qwerty"><%= count %>  </b>
+                  <% end %>
+                  &nbsp;. 
+                  <%= link_to m.message_downvote_string(current_user.id), url_for(controller: 'messagedownvote', action: 'toggle_message_downvote', message_id: m.id),remote: true,id: "messagedownvote", class: 'message_downvote',:onclick => "Materialize.toast('Downvote', 4000)"%>  
+                  <b style="color: grey;" class="message_downvote_qwerty"><%= m.messagedownvotes.count %></b>
+            </div>
+          <% end %> 
+        <% end %>
+      </div>
+      <div id="lower_part_rightside-followers">
+        <%c=0%>
+          <% @follow.each do |f| %>    
+            <% if f.followee_id == current_user.id %>  
+              <% c=c+1 %>   
+            <% end %>
+          <% end %>
+        <span style="font-size: 15px;"> <%= c %> Followers</span>
+        <div style="width:600px;margin-top: 10px; margin-left: -1px;margin-bottom: 3px;border-bottom: 1px solid whitesmoke">
+             <!-- underline under followers -->
+        </div>
+        <% @follow.each do|f| %>
+          <% if f.followee_id == current_user.id %>  
+            <% user = User.find(f.follower_id) %>
+            <div class="follower-stuff" style="display: flex; justify-content: space-between;" data-id=fr<%= user.id %>>  
+              <div style="height: 60px;margin-left: -20px;padding-top: 20px;padding-left: 10px;">
+                <div>
+                   <% if user.profile_picture %>
+                     <img src="/uploads/<%=user.profile_picture %>" id="image">
+                   <% else %>
+                     <img src="/uploads/checkmark.png" id="image">
+                   <% end %>
+                </div>
+                <div style="margin-top:-30px;margin-left: 35px;font-size: 15px;color: black;">
+                   <%if user.name%>
+                     <b><%= user.name %></b> added<br>
+                   <%else%>
+                     <b><%= user.firstname %> <%= user.lastname %></b><br>
+                   <%end%>
+                </div>
+              </div>
+              <div class="follower-button">
+                <%= link_to f.followerbutton(f.followee_id,f.follower_id),url_for(controller: :home, action: :toggle_follower_button, followee_id: f.followee_id, follower_id: f.follower_id), remote: true%>                                   
+                 <br>
+              </div>          
+            </div>
+          <% end %>
+        <% end %>   
+      </div>
+      <div id="lower_part_rightside-followings">
+        <span style="font-size: 15px;"><%= current_user.followee_ids.count %> Followings</span>
+        <div style="width:600px;margin-top: 10px; margin-left: -1px;margin-bottom: 3px;border-bottom: 1px solid whitesmoke">
+             <!-- underline under followings -->
+        </div>
+        <% @follow.each do|f| %>
+          <% if current_user.id == f.follower_id %>
+            <% user =  User.find(f.followee_id) %>
+            <div class="following-stuff" style="display: flex; justify-content: space-between;" data-id=fg<%= user.id %>>  
+              <div style="height: 60px;margin-left: -20px;padding-top: 20px;padding-left: 10px;">
+                <div>   
+                  <% if user.profile_picture %>
+                    <img src="/uploads/<%=user.profile_picture %>" id="image">
+                   <% else %>
+                    <img src="/uploads/checkmark.png" id="image">
+                  <% end %>
+                </div>  
+                <div style="margin-top:-30px;margin-left: 35px;font-size: 15px;color: black;">
+                  <b>
+                    <%= user.firstname%> <%= user.lastname%> 
+                  </b>
+                </div>
+              </div>  
+              <div class="following-button">
+                <%= link_to f.followingbutton(f.follower_id),url_for(controller: :home, action: :toggle_following_button, followee_id: f.followee_id, follower_id: f.follower_id),remote: true%>             
+              </div>   
+            </div> 
+          <% end %>
+        <% end %>
+      </div>
+      <div id="lower_part_rightside-bookmarks">
+        <%c=0%>
+          <% @bookmark.each do |b| %>    
+            <% if b.user_id == current_user.id %>  
+              <% c=c+1 %>   
+            <% end %>
+          <% end %>
+        <span style="font-size: 15px;"> <%= c %> Bookmarks</span>
+        <div style="width:600px;margin-top: 10px; margin-left: -1px;margin-bottom: 3px;border-bottom: 1px solid whitesmoke">
+             <!-- underline under followers -->
+        </div>
+        <% @bookmark.each do|b| %>
+          <% if b.user_id == current_user.id %>
+              <div class="youranswers_div"> 
+                <% bc = Answer.where(id: b.answers_id).first %>
+                <% bca = Message.where(id: bc.message_id).first %>
+                <div>
+                  <div>
+                    <b style="font-size: 25px;"><%= bca.content %></b>
+                  </div>
+                  <div style="display: flex;">  
+                    <div class="lower_part_rightside-answers_pic">
+                      <% if bc.user.profile_picture %>
+                        <img src="/uploads/<%=bc.user.profile_picture %>">
+                      <% else %>
+                        <img src="/uploads/checkmark.png">
+                      <% end %>
+                    </div> 
+                    <div style="display: flex; justify-content: space-between;width: 500%;">  
+                      <div style="margin-top: 10px;margin-left: 10px;">
+                        <%if bc.user.name%>
+                          <span><%= bc.user.name %><br></span>
+                        <%else%>
+                          <span ><%= bc.user.firstname %> <%= bc.user.lastname %>, <%= bc.user.ProfileCredential %> <br></span>
+                        <%end%>
+                        <!-- time zone comes here -->
+                        <div style="font-size: 10px; color: grey;">
+                          <% t = b.created_at %> Bookmarked
+                          <%= t.strftime("%b %d, %Y") %>
+                        </div>
+                      </div>
+                      <div>
+                        <%= link_to url_for(controller: :answerbookmark,action: :remove, id: b.id),method: :get,:id=>"remove_bookmark" do%>
+                            <i class="material-icons" style="color: black;">close</i>
+                        <% end %>
+                      </div>
+                    </div>  
+                  </div><br> 
+                  <div style="color: black; font-size:18px;">
+                    <%= bc.content %>
+                  </div>  
+                </div>
+              </div>
+          <% end %>
+        <% end %>
+      </div>
+      
+    </div>
+  </div>
+      <script >
+
+        function toggle_3_dots() {
+            var x = document.getElementById("dropup-con");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+
+          $(document).ready(function() {
+            $("h6").each(function(){
+            $(this).click(function(){
+            $(this).siblings().slideToggle(2000);
+          })
+          
+         });
+          });
+          ///below 3 lines are for autocomplete copied from application.html.erb
+    $( "#home_autocomplete" ).autocomplete({
+      source: '/questions_api'
+    });
+    </script>
+</body>
+</html>  

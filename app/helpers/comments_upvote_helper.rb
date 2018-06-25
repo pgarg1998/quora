@@ -1,0 +1,2 @@
+module CommentsUpvoteHelper
+end

@@ -1,0 +1,789 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body{
+    background-image: url("/whitebackground.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}   
+
+#what_your_question
+{
+  color:grey;
+  background-color:white;
+  border:none;
+  font-size:20px;
+}
+
+#what_your_question:hover
+{
+  color: #2678b4;
+  background-color:white;
+  border:none;
+  font-size:20px;
+}
+
+.name_link:hover
+{
+  color:grey;
+  background-color:white;
+  text-decoration:underline;
+}
+
+div.all_messages
+{
+  margin-left:350px;
+  margin-top:100px;
+}
+   div.message_divs
+   {
+     padding:5px;
+     margin-bottom:10px;
+     background-color:whitesmoke;
+     width:600px;
+   }
+
+   div.message_divs:hover
+   {
+     box-shadow:2px 2px 2px 2px grey;
+   }
+
+   div.message_divs_header
+   {
+      display:flex;
+      justify-content:space-between;
+   } 
+    
+   div.message_divs_header_left
+   {
+      padding:2px;
+      display:flex;
+   }
+
+   div.message_profile_pic img
+   { 
+      height:40px;
+      border-radius:50px;
+   }
+
+   div.message_user_name
+   {
+     margin-left:13px; 
+     
+     span
+     {
+         font-size:12px;
+     }  
+   }
+ 
+.userfollow
+{
+   height:5px;
+   width:5px;
+}
+ 
+#ques_link a
+{
+  color:black;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+#ques_link a:hover
+{
+  color:black;
+  background-color:whitesmoke;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+div.answer_image img
+{
+   height: 50px;border-radius: 50px;
+}
+
+div.following-stuff
+{  padding:10px;
+   display:flex;
+   justify-content:space-between;
+   div.following_image
+  {
+     img
+     {
+        height:50px;
+        width:50px;
+        border-radius:50px;
+     }
+  }
+
+  
+}
+
+div.follower-stuff
+{  padding:10px;
+   display:flex;
+   justify-content:space-between;
+   div.follower_image
+  {
+     img
+     {
+        height:50px;
+        width:50px;
+        border-radius:50px;
+     }
+  }
+}
+
+div.following-button
+  {
+      margin-top:20px;
+  }
+  
+#submit_answer
+{
+       padding:7px;
+       color:white;
+       font-size:15px;
+       background-color:#3E78AA;
+       border:1px solid white;
+       height:35px;
+       margin-left:400px;
+       border-radius:4px;
+
+}
+
+#answer:hover
+{
+  background-color:whitesmoke;
+  color:grey;
+}
+
+#follow_icon
+{
+  background-color:whitesmoke;
+  color:grey; 
+}
+
+#answer
+{
+  color:grey;
+}
+
+
+
+  #image{
+    border-radius: 50px;
+        left: 500px;
+        height: 30px;
+        width:30px;
+        margin-top: -5px;
+  }
+
+  #message_follow
+  {
+     color:grey;
+  }
+
+  #message_follow:hover
+  {
+     color:grey;
+     background-color:whitesmoke;
+  }
+
+  #messagedownvote
+  {
+    color:grey;
+  }
+  
+  #messagedownvote:hover
+  {
+    color:grey;
+    background-color:whitesmoke;
+
+  }
+
+div.profiles_current_user-pic img 
+{
+  height:170px;
+  width:170px;
+  border-radius:1000px;
+}
+
+div.profiles_current_user-name
+{
+  margin-top:-150px;
+  margin-left:200px;
+  font-size:30px;
+  color:black;
+  font-family: "Times New Roman", Times, serif;
+}
+
+div.profiles_current_user-ProfileCredential
+{
+  margin-left:200px;
+  margin-top:20px;
+  a
+  {
+       color:grey;
+       font-size:16px;
+  }
+}
+
+#profiles_current_user-ProfileCredential-edit:hover
+{
+  color:grey;
+  background-color:none;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+#profiles_current_user-ProfileCredential-edit
+{
+  color:white;
+  background-color:white;
+  text-decoration:underline;
+  cursor:pointer; 
+}
+
+#profiles_current_user-ProfileCredential-edit_elsepart:hover
+{
+   color:grey;
+  background-color:white;
+  text-decoration:underline;
+  cursor:pointer; 
+}
+
+
+#profiles_current_user-ProfileCredential-edit_elsepart
+{
+  color:grey;
+  background-color:none; 
+}
+
+#save_credential
+{
+       padding:7px;
+       color:white;
+       font-size:15px;
+       background-color:#3E78AA;
+       border:1px solid white;
+       height:35px;
+       margin-left:500px;
+       border-radius:4px;
+
+}
+
+div.profiles_current_user-description
+{
+  margin-left:300px;
+  margin-top:10px;
+  font-size:17px;
+}
+
+div.profiles_current_user-description1
+{
+  margin-left:200px;
+  margin-top:10px;
+  font-size:17px;
+}
+
+div.profiles_current_user-description:hover
+{
+
+  cursor:pointer;
+}
+
+div.lower_part_leftside
+{
+  margin-left:120px;
+  margin-top:10px;
+  font-size:15px;
+  color:black;
+}
+
+div.profiles_current_user-followercount
+{
+  color:grey;
+  margin-left:300px;
+  margin-top:13px;
+  font-size:19px;
+}
+
+div.profiles_current_user-followercount1
+{
+  color:grey;
+  margin-left:198px;
+  margin-top:13px;
+  font-size:19px;
+}
+
+ul.lower_part_ul li
+{
+  
+  padding-top:3px;
+  padding-bottom:3px;
+  padding-left:5px;
+  font-size:13px;
+  width:140px;
+  color:grey;
+}
+
+ul.lower_part_ul li span.heading:hover
+{
+   background-color:none;
+   cursor:pointer;
+   margin-left:2px;
+}
+
+div.lower_part_rightside
+{
+  margin-left:15px;
+}
+
+#lower_part_rightside-answers
+{
+   margin-top:10px;
+
+}
+
+#lower_part_rightside-questions
+{
+   margin-top:10px;
+   display:none;
+}
+
+#lower_part_rightside-followers
+{
+     margin-top:10px;
+   display:none;
+}
+
+#lower_part_rightside-followings
+{
+  margin-top:10px;
+   display:none;
+}
+
+#lower_part_rightside-bookmarks
+{
+  margin-top:10px;
+   display:none;
+}
+
+div.lower_part_rightside-answers_pic
+{
+   margin-top:10px;
+  img
+  {
+    height:30px;
+    width:30px;
+    border-radius:100px;
+  }
+}
+
+div.follower-button
+{
+  margin-top:22px;
+}
+
+div.follower-button a
+{
+  
+  padding-top:7px;
+  padding-bottom:7px;
+  padding-left:20px;
+  padding-right:20px;
+  font-size:15px;
+  color:#2f76ac;
+  background-color:#F2F8F8;
+  border:1px solid #2f76ac;
+  border-radius:5px;
+  height:40px;
+}
+
+div.follower-button a:hover
+{
+  padding-top:10px;
+  font-size:15px;
+  color:darkblue;
+  background-color:#F2F8F8;
+  border:1px solid darkblue;
+  border-radius:5px;
+  height:40px;
+}
+
+div.following-button
+{
+  margin-top:22px;
+}
+
+div.following-button a
+{
+  
+  padding-top:8px;
+  padding-bottom:8px;
+  padding-left:20px;
+  padding-right:20px;
+  font-size:15px;
+  color:darkgrey;
+  background-color:whitesmoke;
+  border:1px solid darkgrey;
+  border-radius:5px;
+  height:40px;
+}
+
+div.following-button a:hover
+{
+  padding-top:8px;
+  padding-bottom:8px;
+  padding-left:20px;
+  padding-right:20px;
+  font-size:15px;
+  color:grey;
+  background-color:whitesmoke;
+  border:1px solid grey;
+  border-radius:5px;
+  height:40px;
+}
+
+.dropup-content {
+    display: none;
+    position: absolute;
+    background-color: lightgrey;
+    min-width: 140px;
+    bottom:210px;
+    right:8px;  
+    z-index: 1;
+
+}
+
+.dropup-content a {
+    padding: 8px 8px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropup-content a:hover {background-color: grey;}
+
+
+.dropup:hover .dropbtn {
+    background-color: whitesmoke;
+    color:black;
+    cursor: pointer;
+}
+
+#lower_part_rightside-answers_messagedownvote
+{
+  color:grey;
+}
+
+#lower_part_rightside-answers_messagedownvote:hover
+{
+  color:white;
+}
+
+#lower_part_rightside-answers_deleteanswer
+{
+  color:red;
+}
+
+#lower_part_rightside-answers_deleteanswer:hover
+{
+  color:red;
+  background-color:whitesmoke;
+}
+
+
+div.yourquestions_div
+{
+  background-color:whitesmoke;
+  margin-bottom:10px;
+  padding:10px;
+  width:650px;
+}
+
+div.youranswers_div
+{
+  background-color:whitesmoke;
+  margin-bottom:10px;
+  padding:10px;
+  width:630px;
+}
+
+#hy:hover
+{
+  background-color:whitesmoke;
+  color:black;
+}
+
+#edit-modal
+{
+     width: 50px;
+     font-size: 16px;
+     padding-top:5px;
+     padding-bottom:5px;
+     padding-right:8px;  
+     padding-left:8px;
+     margin-left:10px;
+     box-shadow:2px 2px 6px grey;
+     border-radius:2px;
+     color:brown;
+}
+
+#edit-modal:hover
+{
+     width: 50px;
+     font-size: 16px;
+     padding-top:5px;
+     padding-bottom:5px;
+     padding-right:8px;  
+     padding-left:8px;
+     margin-left:10px;
+     background-color:brown;
+     color:white;
+     border-radius:2px;    
+}
+
+
+#update_message
+{
+       padding:7px;
+       padding-left:20px;
+       padding-right:20px;
+       color:white;
+       font-size:15px;
+       background-color:#3E78AA;
+       border:1px solid white;
+       height:35px;
+       margin-left:460px;
+       border-radius:4px;
+}
+
+
+.delete_message
+{
+
+  height:30px;
+}
+   
+#message_follow1
+  {
+     color:grey;
+     margin-left:5px;
+  }
+
+
+#message_follow1:hover
+  {
+     color:grey;
+     margin-left:5px;
+     background-color:whitesmoke;
+  }
+
+#answer1
+{
+  padding-top:13px;
+  padding-bottom:3px;
+  padding-left:4px;
+  padding-right:4px;
+  margin-right:4px;
+  background-color:#f2f8fb;
+  border:1px solid #becddc;
+  border-radius:2px;
+  color:#34a6e3;
+}
+
+#answer1:hover
+{
+  padding-top:13px;
+  padding-bottom:3px;
+  padding-left:4px;
+  padding-right:4px;
+  margin-right:4px;
+  background-color:#f2f8fb;
+  border:1px solid grey;
+  border-radius:2px;
+  color:#34a6e3;
+}
+
+.answers_profile_pic img
+{
+  height:50px;
+  width:50px;
+  border-radius:100px;
+}
+
+#follow_person img
+{
+  height:50px;
+  width:50px;
+}
+
+#follow_person:hover
+{
+  background-color:whitesmoke;
+  text-decoration:none;
+}
+
+#unfollow_person img
+{
+  height:50px;
+  width:50px;
+}
+
+#unfollow_person:hover
+{
+  background-color:whitesmoke;
+  text-decoration:none;
+}
+
+div.answer_bookmark a
+{
+  color:black;
+}
+
+#check:hover, #bookmark:hover
+{
+  background-color:black;
+  color:white;
+  padding-top:15px;
+  padding-right:5px;
+  padding-left:5px;
+
+}
+
+#answer_downvote_button
+{
+  color:black;
+}
+
+#answer_downvoted_button
+{
+  color:blue;
+}
+
+#answer_downvote_button:hover
+{
+background-color:black;
+  color:white;
+  padding-top:15px;
+  padding-right:20px;
+  padding-left:2px;
+}
+
+#answer_downvoted_button:hover
+{
+  background-color:blue;
+  color:white;
+  padding-top:15px;
+  padding-right:20px;
+  padding-left:2px;
+}
+
+#answer_upvote_button
+{
+  color:black;
+}
+
+#answer_upvoted_button
+{
+  color:blue;
+}
+
+#answer_upvote_button:hover
+{
+  background-color:black;
+  color:white;
+  padding-top:15px;
+  padding-right:2px;
+  padding-left:2px;
+}
+
+#answer_upvoted_button:hover
+{
+  background-color:blue;
+  color:white;
+  padding-top:15px;
+  padding-right:2px;
+  padding-left:2px;
+}
+
+div.account_setting
+{
+  margin-left: 110%;
+  padding: 10px;
+  margin-top:120px;
+  width:250%;
+  background-color: whitesmoke; 
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px grey;
+  border: 1px solid grey;
+  
+}
+
+.account_setting_update
+{
+  background-color:none;
+  padding:5px;
+  background-color:#45b145;
+  color:black;
+  border-radius:2px;
+  border:1px solid grey;
+  width:10%;
+}
+
+.account_setting_update:hover
+{
+  background-color:none;
+  padding:5px;
+  background-color:#45b145;
+  color:black;
+  border-radius:2px;
+  border:1px solid grey;
+  width:10%;
+  box-shadow:2px 2px 2px grey;
+}
+.account_setting_cancel
+{
+  background-color:whitesmoke;
+  padding:5px;
+  background-color:#f72e2e;
+  color:black;
+  border-radius:2px;
+  border:1px solid grey;
+}
+.account_setting_cancel:hover
+{
+  background-color:whitesmoke;
+  padding:5px;
+  background-color:#f72e2e;
+  color:black;
+  border-radius:2px;
+  border:1px solid grey;
+  box-shadow:2px 2px 2px grey;
+}
+
+.account_setting_back
+{
+  height:40px;
+  width:40px;
+  border-radius:10px;
+  margin-left:97%;
+}
+
+.account_setting_back:hover
+{
+  height:40px;
+  width:40px;
+  border-radius:10px;
+  margin-left:97%;
+}
+
+#remove_bookmark:hover
+{
+  background-color:whitesmoke;
+  height:30px;
+}
+

@@ -1,0 +1,51 @@
+    
+  <div class="account_setting">
+    <div style="margin-left: 95%;">
+      <%= link_to  :back,:id=>"remove_bookmark"  do%>
+       <i class="material-icons" style="color: black;">close</i>
+      <% end %>
+    </div>
+    <h5 style="text-align: center">Account Setting</h5> 
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= devise_error_messages! %>
+        <div class="text_field">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true %>
+        </div>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+        <% end %>
+
+        <div class="input-field">
+          <%= f.label :New_password %>
+          <%= f.password_field :password, autocomplete: "off" ,required: "true" %>
+          <% if @minimum_password_length %>
+            <br />
+            <!-- <em><%= @minimum_password_length %> characters minimum</em> -->
+          <% end %>
+        </div>
+        <div class="input-field">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "off",required: "true" %>
+        </div>
+
+        <div class="input-field">
+          <%= f.label :current_password %> 
+          <%= f.password_field :current_password, autocomplete: "off",required: "true" %>
+        </div>
+
+        <div style="display: flex;justify-content: space-between;">
+          <%= f.submit "Update",class: 'account_setting_update' %>
+          <%= button_to "Cancel my account", registration_path(resource_name), data: {  confirm: "Are you sure?" }, method: :delete, class: 'account_setting_cancel' %>
+        </div>
+        <br>
+    <% end %>
+       
+  </div>
+  <script>
+    ///below 3 lines are for autocomplete copied from application.html.erb
+    $( "#home_autocomplete" ).autocomplete({
+      source: '/questions_api'
+    });
+  </script>

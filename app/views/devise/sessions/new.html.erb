@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body background="/whitebackground.jpeg">
+   
+<div class="login_heading"><b>Sign In</b></div>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="login_field">
+    <div class="login_email">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true %>
+    </div>
+
+    <div class="login_password">
+      <%= f.label :password %><br />
+      <%= f.password_field :password, autocomplete: "off" %>
+    </div>
+
+    <% if devise_mapping.rememberable? -%>
+      <div class="login_checkbox">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me %>
+      </div>
+    <% end %>
+
+    <div class="login_actions">
+      <%= f.submit "Sign In" %>
+    </div>
+    <br>
+    <div class="login_with_facebook">
+      <%- if devise_mapping.omniauthable? %>
+       <%- resource_class.omniauth_providers.each do |provider| %>
+        <%= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path %><br />
+       <% end -%>
+     <% end -%>
+   </div>
+   <div class="forgot_password">     
+         <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+              <%= link_to "Forgot your password?", new_password_path(resource_name) %><br />
+         <% end -%>
+   </div>
+
+
+   <%= render "devise/shared/links" %>
+  </div>
+  
+  <div class="New_to_Quora">
+    <h6>New to Quora?</h6>
+  </div>
+  <br>
+  <br>
+     <div class="signup">
+      <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+        <%= link_to "create your Quora account", new_registration_path(resource_name) %><br />
+      <% end -%>
+   </div> 
+<% end %>
+<script type="text/javascript">
+  
+///below 3 lines are for autocomplete copied from application.html.erb
+    $( "#home_autocomplete" ).autocomplete({
+      source: '/questions_api'
+    });
+</script>
+
+</body>
+</html>
+

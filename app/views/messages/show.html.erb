@@ -1,0 +1,330 @@
+<link rel="stylesheet" type="text/css" href="particular_message_info_css">
+<script type="text/javascript">	
+///below 3 lines are for autocomplete copied from application.html.erb
+    $( "#home_autocomplete" ).autocomplete({
+      source: '/questions_api'
+    });  
+
+  $(document).ready(function(){
+    $('.tooltipped').tooltip();
+  });
+
+  function comment() {
+            var x = document.getElementById("comment_input");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        
+
+
+</script>
+<div class="particular_message">
+   <div style="font-size: 30px;">
+   	 <b><%= @message.content %></b>
+   </div><br>
+   <div style="display: flex; justify-content: space-between;" >
+    	<div style="display: flex;"> <!-- left part begins -->
+	    	<a class=" modal-trigger" href="#modal15" id="answer">
+	           <i class="material-icons">mode_edit</i>Answer
+	        </a>
+	        <div id="modal15" class="modal" style="width: 606px;height: 280px; border-radius: 10px;">
+	          <div class="modal-content">
+	            <div style="background-color: whitesmoke;height: 60px;margin-left: -20px;width: 600px;margin-top: -20px;padding-top: 20px;padding-left: 10px;">
+		            <div>
+			            <% if current_user.profile_picture %>
+			                <img src="/uploads/<%=current_user.profile_picture %>" id="image">
+			            <% else %>
+			                <img src="/uploads/checkmark.png" id="image">
+			            <% end %>
+	                </div>
+			        <div style="margin-top:-30px;margin-left: 35px;font-size: 13px;color: black;">
+			            <%if current_user.name%>
+			                <b><%= current_user.name %>, <%= current_user.ProfileCredential %></b> added<br>
+			            <%else%>
+			                <b><%= current_user.firstname %> <%= current_user.lastname %></b> added<br>
+			            <%end%>
+			        </div>
+	            </div>
+		        <div style="margin-left: -25px;width: 606px;color: grey;"><hr></div>
+		            <%= form_tag({:controller => "answers", :action => "create"}, method: :post) do %>
+		                <%= hidden_field_tag "message_id", @message.id %>
+		                <div class="input-field col s12" style="margin-top: 25px;">
+		                    <textarea id="textarea1" class="materialize-textarea" name="content" >
+		                     </textarea>
+		                     <label for="textarea1">Answer</label>
+		                </div>
+		                <%= submit_tag "Submit Answer", :id=>"submit_answer" %>
+		                <br>
+		            <% end %>
+		        </div>
+	        </div>
+	        <div style="margin-left: 15px;" id="message_follow">
+			    <% if @message.messagefollowingbutton(@message.id,current_user.id) == "Follow" %>        
+			            <i class="material-icons">rss_feed</i>
+			            <%= link_to "Follow",url_for(controller: :messages, action: :toggle_message_following_button, message_followee_id: @message.id),remote: true, class: 'message_follow'  %>
+			            <% messagefollow_count = MessageFollow.where(message_followee_id:@message.id) %>
+			            <% if messagefollow_count.count > 0 %>
+			              <% count=0 %>
+			              <% @messagefollow.each do|mf| %>
+			                <% if mf.message_followee_id == @message.id %>
+			                  <% count = count+1 %>   
+			                <% end %> 
+			              <% end %>     
+			              <b class="qwerty"><%= count %> </b>
+			            <% end %>
+			    <% else %>
+                        <span style="color:blue;">
+				            <i class="material-icons">rss_feed</i>
+				            <%= link_to "Following",url_for(controller: :messages, action: :toggle_message_following_button, message_followee_id: @message.id),remote: true, class: 'message_follow', :style=>'color:blue;' %>
+				            <% messagefollow_count = MessageFollow.where(message_followee_id:@message.id) %>
+				            <% if messagefollow_count.count > 0 %>
+				              <% count=0 %>
+				              <% @messagefollow.each do|mf| %>
+				                <% if mf.message_followee_id == @message.id %>
+				                  <% count = count+1 %>   
+				                <% end %> 
+				              <% end %>     
+				              <b class="qwerty"><%= count %> </b>
+				            <% end %>
+				        </span>    
+			    <% end %>         
+	        </div>
+        </div> <!-- left part ends here -->
+        <div style="display: flex; margin-right: 160px;"> <!-- Right part begins -->
+        	<!-- message comment section -->
+        	<div style="margin-top: 10px;" class="message_comment_button"> 
+        	  <span class="tooltipped" data-position="top" data-tooltip="comment" style="cursor: pointer;" onclick="comment()"><i class="material-icons">comment</i></span>
+        	  <% count =0 %>
+        	  <% @messagecomments.each do|mc| %>
+        	     <% if mc.message_id == @message.id %>
+                   <% count = count+1 %>
+                 <% end %>   
+        	  <% end %>
+        	  <% if count > 0 %>
+                <%= count %>
+        	  <% end %>
+        	</div>
+        	<!-- message downvote section -->
+        	<div style="margin-top: 10px; margin-left:10px;" class="message_downvote_button">
+        		<% user = Messagedownvote.where(user_id: current_user.id, message_id: @message.id) %>
+                <% if user %>
+	        		<span class="tooltipped" data-position="top" data-tooltip="downvoted" style="cursor: pointer;">     			
+	                    <%= link_to  url_for(controller: 'messagedownvote', action: 'toggle_message_downvote', message_id: @message.id),id: "MessageDownvote", remote: :true do %>
+		                    <i class="material-icons">assignment_returned</i>
+		                    
+		                    <b style="color: grey;" class="qwert"><%= @message.messagedownvotes.count %></b>
+		                <% end %>    		                    
+	        		</span>
+                <% else %>
+                    <span class="tooltipped" data-position="top" data-tooltip="downvote" style="cursor: pointer;">
+	                    <%= link_to  url_for(controller: 'messagedownvote', action: 'toggle_message_downvote', message_id: @message.id),id: "MessageDownvote", remote: :true do %>
+    	                   <i class="material-icons" id="arrow_downward">arrow_downward</i>
+	                       
+	                       <b style="color: grey;" class="qwert"><%= @message.messagedownvotes.count %></b>
+	                    <% end %>   
+	        		</span>
+                <% end %>
+        	</div>
+        </div>
+   </div><br>
+   <!-- comment div begins -->
+   <div id="comment_input">
+			
+			<div style="display: flex;">  	
+			   	<div style="margin-right: 10px;margin-top: 10px;">
+					<% if current_user.profile_picture %>
+					    <img src="/uploads/<%=current_user.profile_picture %>" id="image">
+					<% else %>
+					    <img src="/uploads/checkmark.png" id="image">
+					<% end %>
+				</div>
+			   	<%= form_tag({:controller => "messagecomments", :action => "createcomment"},method: :post) do %>
+			   	    <%= hidden_field_tag "message_id", @message.id %>
+			        <textarea name="content" placeholder="comment" maxlength="30"></textarea>
+			        <%= submit_tag "comment" ,:id=>"create_comment" %>
+			   	<% end %>
+	        </div>
+	        <% @messagecomments.each do|mc| %>
+			   <% if mc.message_id == @message.id %>
+					<div class="CommentUpvoteDiv" data-id=<%=mc.id%> >    
+					    <div style="display: flex;">    
+					        <div class="message_profile_pic">
+				                <% if mc.user.profile_picture %>
+				                   <img src="/uploads/<%=mc.user.profile_picture %>">
+				                <% else %>
+				                   <img src="/uploads/checkmark.png">
+		                        <% end %>
+		                    </div> 
+					        <div class="message_user_name">
+			                   <%if mc.user.name%>
+			                      <span><b><%= mc.user.name %>, <%= mc.user.ProfileCredential %></b><br></span>
+			                    <%else%>
+			                      <span><b><%= mc.user.firstname %> <%= mc.user.lastname %>, <%= mc.user.ProfileCredential %></b><br></span>
+			                   <%end%>
+			                   <!-- time zone comes here -->
+			                   <div style="font-size: 13px; color: grey;display: flex;">
+			                        <% t = mc.created_at %>
+			                        <%= t.strftime("%b %d, %Y") %>
+				                    <% if mc.commentupvotes.count > 0 %>     
+					                        . 
+					                   <div>
+					                   	<b style="color: grey;" class="qwerty"> <%= mc.commentupvotes.count %></b> upvotes
+					                   </div>
+					                <% end %>   
+			                   </div>
+		                    </div>
+		                </div>
+		                <span style="font-size: 15px;margin-left: 45px;"><%= mc.content %></span>
+		                <br>
+		                <span style="margin-left: 45px;">
+		                	<%= link_to mc.message_comment_string(current_user.id), url_for(controller: 'commentupvote', action: 'toggle_comment_upvote', comment_id: mc.id),class: 'comment_upvote',remote: :true %><!-- 
+		                	<b style="color: grey;" class="qwerty"><%= mc.commentupvotes.count %></b> -->
+
+		                </span>&nbsp;
+		                <span>
+		                	<%= link_to mc.message_comment_string1(current_user.id), url_for(controller: 'commentdownvote', action: 'toggle_comment_downvote', comment_id: mc.id),class: 'comment_downvote',remote: :true %>
+		        <!--         	<b style="color: grey;" class="qwert"><%= mc.commentdownvotes.count %></b> -->
+
+		                </span>
+		            </div>    
+			   <% end %>   
+		    <% end %>
+            <br> 
+   </div>
+<br>
+
+   <% count = 0 %>
+   <% @answer.each do|a| %>
+      <% if a.message_id == @message.id %>
+        <% count =count+1 %>
+      <% end %>
+   <% end %>
+   <div style="font-size: 16px;">
+     <%= count %> Answers
+   </div>
+   <div style="width:600px;margin-top: 10px; margin-left: -1px;margin-bottom: 3px;border-bottom: 2px solid lightgrey">
+             <!-- underline under answers -->
+   </div>
+   <% if count == 0 %>
+     <div style="margin-left: 160px;margin-top: 150px;font-size: 30px;">
+     	No answers yet
+     	  <i class="medium material-icons">mood_bad</i>
+     </div>
+   <% else %>
+     <div style="margin-top: 10px;">
+     	<% @answer.each do|a| %>
+            <% if a.message_id == @message.id %>
+                <div style="display: flex; justify-content: space-between;">
+	                <div style="display: flex;">    
+	                    <div class="answers_profile_pic"> 
+	                        <% if a.user.profile_picture %>
+	                            <img src="/uploads/<%=a.user.profile_picture %>">
+	                        <% else %>
+	                            <img src="/uploads/checkmark.png">
+	                        <% end %>
+	                    </div>                  
+	                    <div style="margin-left: 5px;margin-top: 5px;">
+	                        <span style="font-size: 16px;color: black;">
+	                            <%if a.user.name%>
+	                                <b><%= a.user.name %></b> added<br>
+	                            <%else%>
+	                                <b><%= a.user.firstname %> <%= a.user.lastname %>, <%= a.user.ProfileCredential %> </b><br>
+	                            <%end%>
+	                        </span>
+	                        <span style="font-size: 10px;color: grey;">
+	                            Answered 
+	                            <% t = a.created_at %>
+	                            <%= t.strftime("%b %d, %Y") %>
+	                        </span>  
+	                    </div>               
+                    </div>
+                    <div style="margin-right: 150px;">
+		                <% if current_user.id != a.user_id %>
+		                  <div>
+		                    <% if current_user.can_follow a.user_id %>
+		                      <%= link_to image_tag("/follow.svg", width: 96, height: 67, class: 'dock-items'), url_for(controller: :home,action: :follow1, followee_id: @message.user_id, user_email: @message.user.email, user_profileimage: @message.user.profile_picture), :id => "follow_person" %>
+		                     <% else %>
+		                      <%= link_to image_tag("/following.png", width: 96, height: 67, class: 'dock-items'), url_for(controller: :home,action: :un_follow1, followee_id: @message.user_id,user_email: @message.user.email, user_profileimage: @message.user.profile_picture ),:id => "follow_person" %>
+		                    <% end %>
+		                  </div>
+		                <% end %>
+		            </div>
+                </div>
+                <br>  
+                <div style="font-size: 20px;">
+                    <%= a.content %>   
+                </div> 
+                <br>
+	            <div style="display: flex;">  
+	                <div class="answer_upvote_button" data-id=<%=a.id%> >
+	                    <span  style="cursor: pointer; " onclick="document.getElementById('answer_upvoted_button').remove(),document.getElementById('answer_upvote_button').add()">
+	                      
+	                      <% upvote = a.upvote_string(current_user.id) %>
+	                      <% if upvote == 0 %>
+                            <%= link_to  url_for(controller: :upvotes , action: :toggle_answer_upvote, answer_id: a.id), :id => "answer_upvoted_button" do%>
+	                            
+	                             <i class="material-icons">thumb_up</i>
+		                     <% end %>
+	                      <% else %>
+                            <span  style="cursor: pointer; " onclick="document.getElementById('answer_upvoted_button').add(),document.getElementById('answer_upvote_button').remove()">
+                            <%= link_to  url_for(controller: :upvotes , action: :toggle_answer_upvote, answer_id: a.id), :id => "answer_upvote_button" do%>
+	                            
+	                             <i class="material-icons">thumb_up</i>
+		                     <% end %>
+	                      <% end %>             
+	                    </span>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                    <span  style="cursor: pointer; ">
+	                      
+	                      <% downvote = a.downvote_string1(current_user.id) %>
+	                      <% if downvote == 0 %>
+	                         <%= link_to url_for(controller: :answerdownvote , action: :toggle_answer_downvote, answer_id: a.id), :id => "answer_downvoted_button" do%>
+	                             <i class="material-icons">thumb_down</i>
+		                     <% end %>
+	                      <% else %>
+	                         <span style="cursor: pointer; ">
+	                         <%= link_to url_for(controller: :answerdownvote , action: :toggle_answer_downvote, answer_id: a.id), :id => "answer_downvote_button" do%>
+		                          <i class="material-icons">thumb_down</i>
+		                     <% end %>
+	                      <% end %>             
+	                    </span>
+                    </div>
+                    <div class="answer_bookmark" style="margin-left: 63%;">
+                      <% bookmark = a.answer_bookmark(a.id,current_user.id) %>
+                      <% if bookmark == 0 %>
+                         <span class="tooltipped" data-position="top" data-tooltip="Bookmarked" style="cursor: pointer;"> 
+                         <%= link_to url_for(controller: :answerbookmark, action: :createbookmark, answer_id: a.id),id: "check" do%>
+                             <i class="material-icons">check</i>
+                         <% end %>
+                      <% else %>
+                         <span class="tooltipped" data-position="top" data-tooltip="Bookmark" style="cursor: pointer;"> 
+                         <%= link_to url_for(controller: :answerbookmark, action: :createbookmark, answer_id: a.id),id: "bookmark" do%>
+                             <i class="material-icons">bookmark</i>
+                         <% end %>
+                      <% end %>                     	
+                    </div> 
+	            </div>
+                <br>
+                <% count = 0 %>
+                <% @upvotes.each do|u| %>
+                   <% if u.answer_id == a.id %>
+                      <% count = count + 1 %>
+                   <% end %>   
+                <% end %>
+                <b><%=count%> Upvotes</b> 
+                <br>
+                <div class="deliminator">
+                     <!-- underline under every answer -->
+                </div>
+                <br>
+            <% end %>
+
+        <% end %>
+     </div>
+   <% end %>   
+   
+</div>
+

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quora</title>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+
+</head>
+<body >
+   <script >
+
+  $(document).ready(function(){
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+        
+  });
+
+     
+  </script>
+
+        <% if notice %>
+          <p class="alert alert-success"><%= notice %></p>
+        <% end %>
+        <% if alert %>
+           <p class="alert alert-danger"><%= alert %></p>
+        <% end %>
+
+<header>
+    <% if current_user %>
+        <div class="signedin_header">
+          <div class="Quora_pic">
+            <img src="/quora.png">            
+          </div>
+            <div style="width: 45%;margin-top: -15px;">
+              <%= form_tag(messages_path, :method => "get", id: "search-form") do %>                  
+                  <!-- <input type="search" placeholder="Search Quora" id="home_autocomplete" class="text"> -->
+                  
+                  <%= text_field_tag :search, params[:search], placeholder: "Search Quora", :id=>"home_autocomplete" %>
+
+                 <!--  <%= submit_tag "Search", :content => nil, :id=>"search_button" %> -->
+                 <%= image_submit_tag("/search_button_red.png", id:"search_button")%>
+              <% end %>
+            </div>
+          <div class="navigation">
+            <ul>
+              <li>
+               <div class="dropdown1">
+                <a href="/Profiles">
+                  <div class="profiles_link">
+                    <% if current_user.profile_picture %>
+                      <img src="/uploads/<%=current_user.profile_picture %>" id="profile_picture">
+                    <% else %>
+                      <img src="/uploads/checkmark.png" id="profile_picture">
+                    <% end %>
+                    <div class="current_user_name" style="margin-left: 50px;">
+                      <%if current_user.name%>
+                        <b><%= current_user.name %></b><br>
+                      <%else%>
+                        <b><%= current_user.firstname %> <%= current_user.lastname %></b><br>
+                      <%end%>
+                    </div>
+                  </div>
+                </a>
+                <div class="dropdown-content1">
+                  <%= link_to "Home" , url_for(controller: :home,action: :index),method: :post  %>
+                  <%= link_to "Privacy Setting" , url_for(controller: :home,action: :profile),method: :post  %>
+                  <a href="/users/edit">Account Setting</a>
+                  <%= link_to "Signout" ,  destroy_user_session_path , method: :DELETE %>
+                </div>
+               </div>
+              </li>
+              <li class="home"><%= link_to "Home" , url_for(controller: :home,action: :index),method: :post  %></li>
+              <li class="signout"><%= link_to "Signout" ,  destroy_user_session_path , method: :DELETE %></li>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+    <% else %>
+      <div class="signedout_header">
+          <img src="/quora.png">            
+      </div>
+    <% end %>
+</header>
+
+<%= yield %>
+
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+<!-- Compiled and minified CSS -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+<!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js">
+  </script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+  <script type="text/javascript">
+
+    $( "#home_autocomplete" ).autocomplete({
+      source: '/questions_api'
+    });
+    // var availableTags = [      "ActionScript",
+    //   "AppleScript",
+    //   "Asp",
+    //   "BASIC",
+    //   "C",
+    //   "C++",
+    //   "Clojure",
+    //   "COBOL",
+    //   "ColdFusion",
+    //   "Erlang",
+    //   "Fortran",
+    //   "Groovy",
+    //   "Haskell",
+    //   "Java",
+    //   "JavaScript",
+    //   "Lisp",
+    //   "Perl",
+    //   "PHP",
+    //   "Python",
+    //   "Ruby",
+    //   "Scala",
+    //   "Scheme"
+    // ];
+
+    // window.addEventListener('load', function(){
+      
+    //   $( "#home_autocomplete" ).autocomplete({
+    //     source: tags,
+        
+    //   });
+
+    // });
+    
+    
+  </script>
+     
+
+</body>
+</html>
